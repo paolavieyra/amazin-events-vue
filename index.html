@@ -47,6 +47,7 @@
     </div>
   </header>
   <main class="main-index" id="app">
+    {{fitrosCruzados}}
     <div class="slider">
       <h2>Home</h2>
       <div id="carouselExample" class="carousel slide">
@@ -75,32 +76,38 @@
 
    
     <div class="d-flex flex-lg-row flex-column gap-4" id="formCat">
+      <template v-for="categoria of checkbox">
      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-        <label class="form-check-label" for="inlineRadio1">Food Fair</label>
+        <input v-model="inputCheck"class="form-check-input" type="checkbox" name="inlineRadioOptions"  :value="categoria">
+        <label class="form-check-label">{{categoria}}</label>
+      
       </div>
+    </template>
+    
       
         <form class="d-flex" role="search" >
-          <input class="form-control me-2"  type="search" placeholder="Search" aria-label="Search" id="search_input">
+          <input v-model="texto"class="form-control me-2"  type="search" placeholder="Search" aria-label="Search" id="search_input">
           <button class="btn btn-outline-success" type="submit" id="boton" >Search</button>
         </form>
       </div>
+     
     </div>
-    <div class="cards-group p-5 d-flex gap-5 align-content-between justify-content-around flex-wrap justify-content-center" id="card">
-      <template v-for="cartas of eventos">
+    <div v-if="eventosFiltrados.length>0" class="cards-group p-5 d-flex gap-5 align-content-between justify-content-around flex-wrap justify-content-center" id="card">
+      <template v-for="cartas of eventosFiltrados">
       <div class="card col-sm-6 well" style="width: 18rem;">
-        <img src="./assets/img/cinema.jpg" class="card-img-top" alt="Cinema photo">
+        <img :src="cartas.image" class="card-img-top" alt="Cinema photo">
         <div class="card-body">
           <h5 class="card-title">{{cartas.name}}</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.</p>
+          <p class="card-text">{{cartas.description}}</p>
             <h4>Price</h4>
-            <p>$$$</p>
-          <a href="./details.html" class="btn btn-primary">Go Details</a>
+            <p>{{cartas.price}}</p>
+          <a :href="'./details.html?id='+cartas._id" class="btn btn-primary">Go Details</a>
         </div>
       </template>
       </div>
-    
+      <div v-else class="cards-group p-5 d-flex gap-5 align-content-between justify-content-around flex-wrap justify-content-center">
+      <div class="card" style="width: 18rem;" ><h3>Sorry {{texto}} it is not in our catalog of events</h3></div>
+    </div>
       
   </main>
   <footer>
